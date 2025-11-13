@@ -1,0 +1,397 @@
+nohup: ignoring input
++ DEBUG=0
++ export PYTHONPATH=/mnt/ceph_rbd/comp_rag/unirag:
++ PYTHONPATH=/mnt/ceph_rbd/comp_rag/unirag:
++ export WANDB_DIR=/mnt/ceph_rbd/comp_rag/unirag/debug_data/wandb_logs
++ WANDB_DIR=/mnt/ceph_rbd/comp_rag/unirag/debug_data/wandb_logs
++ data_path=/mnt/ceph_rbd/comp_rag/unirag/debug_data
++ SAVE_MODEL_NAME=unirag_cluster2_2m_mix_stage1
++ SAVE_PATH=/mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
++ WANDB_TOKEN=xx
++ MODEL_PATH=/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
++ mkdir -p /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
++ ARG_SCRIPT=distributed_arguments.py
++ NCCL_DEBUG=INFO
+++ python distributed_arguments.py num_nodes
++ NUM_NODES=1
+++ python distributed_arguments.py master
++ MASTER=127.0.0.1
+++ python distributed_arguments.py port
++ MASTER_PORT=29500
+++ python distributed_arguments.py rank
++ NODE_RANK=0
+++ python distributed_arguments.py num_gpus
++ NUM_LOCAL_GPUS=4
++ WORLD_SIZE=4
++ echo 'Number of nodes: 1'
+Number of nodes: 1
++ echo 'WORLD_SIZE: 4'
+WORLD_SIZE: 4
++ echo 'Number of local GPUs: 4'
+Number of local GPUs: 4
++ echo 'Master: 127.0.0.1'
+Master: 127.0.0.1
++ echo 'Master port: 29500'
+Master port: 29500
++ echo 'Node rank: 0'
+Node rank: 0
+++ which python
++ echo 'Currently using /mnt/ceph_rbd/conda_env/cprag/bin/python'
+Currently using /mnt/ceph_rbd/conda_env/cprag/bin/python
++ training_commands='openrlhf.cli.train_sft    --max_len 2048    --dataset /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl    --pretrain /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2    --train_batch_size 128    --micro_train_batch_size 2    --ckpt_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1    --max_samples 500    --save_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1    --save_steps -2    --logging_steps 1    --eval_steps 20    --zero_stage 2    --max_epochs 1    --bf16    --flash_attn    --learning_rate 1e-4    --stage stage1    --generation_top_k 1    --qa_loss    --doc_max_length 256    --compress_rate 32    --mse_loss    --gradient_checkpointing'
++ DISTRIBUTED_ARGS='--nproc_per_node 4 --nnodes 1 --rdzv_id 101 --rdzv_backend c10d --rdzv_endpoint 127.0.0.1:29500 --master_addr 127.0.0.1 --master_port 29500 --node_rank 0'
++ echo 'Starting UniRAG training on node 0 of 1 nodes...'
+Starting UniRAG training on node 0 of 1 nodes...
++ '[' 0 -eq 0 ']'
++ '[' 1 -gt 1 ']'
++ torchrun --nproc_per_node 4 --nnodes 1 --rdzv_id 101 --rdzv_backend c10d --rdzv_endpoint 127.0.0.1:29500 --master_addr 127.0.0.1 --master_port 29500 --node_rank 0 -m openrlhf.cli.train_sft --max_len 2048 --dataset /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl --pretrain /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2 --train_batch_size 128 --micro_train_batch_size 2 --ckpt_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1 --max_samples 500 --save_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1 --save_steps -2 --logging_steps 1 --eval_steps 20 --zero_stage 2 --max_epochs 1 --bf16 --flash_attn --learning_rate 1e-4 --stage stage1 --generation_top_k 1 --qa_loss --doc_max_length 256 --compress_rate 32 --mse_loss --gradient_checkpointing
+W1028 20:29:29.421000 15929 site-packages/torch/distributed/run.py:792] 
+W1028 20:29:29.421000 15929 site-packages/torch/distributed/run.py:792] *****************************************
+W1028 20:29:29.421000 15929 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1028 20:29:29.421000 15929 site-packages/torch/distributed/run.py:792] *****************************************
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 1
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 1
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 1
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 1
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+Initializing new model
+Initializing new model
+Initializing new model
+Initializing new model
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 36.47it/s]
+Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 35.85it/s]
+Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 35.43it/s]
+Base decoder parameters: 7241732096
+Loading encoder and decoder adapter for stage1Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 34.60it/s]
+
+Base decoder parameters: 7241732096
+Loading encoder and decoder adapter for stage1
+Base decoder parameters: 7241732096
+Loading encoder and decoder adapter for stage1
+Base decoder parameters: 7241732096
+Loading encoder and decoder adapter for stage1
+Model adapter keys: ['decoder_adapter', 'encoder_adapter']
+Model adapter keys: ['decoder_adapter', 'encoder_adapter']
+Model adapter keys: ['decoder_adapter', 'encoder_adapter']
+Model adapter keys: ['decoder_adapter', 'encoder_adapter']
+Memory token count: 8
+Memory token count: 8
+Memory token count: 8
+Memory token count: 8
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter encoder_adapter trainable parameters: 41943040
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter encoder_adapter trainable parameters: 41943040
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter encoder_adapter trainable parameters: 41943040
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter encoder_adapter trainable parameters: 41943040
+UniRAG(
+  (decoder): MistralForCausalLM(
+    (model): MistralModel(
+      (embed_tokens): Embedding(32011, 4096)
+      (layers): ModuleList(
+        (0-31): 32 x MistralDecoderLayer(
+          (self_attn): MistralAttention(
+            (q_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (k_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=1024, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (v_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=1024, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (o_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+          )
+          (mlp): MistralMLP(
+            (gate_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=14336, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (up_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=14336, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (down_proj): lora.Linear(
+              (base_layer): Linear(in_features=14336, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=14336, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=14336, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (act_fn): SiLU()
+          )
+          (input_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+          (post_attention_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+        )
+      )
+      (norm): MistralRMSNorm((4096,), eps=1e-05)
+      (rotary_emb): MistralRotaryEmbedding()
+    )
+    (lm_head): Linear(in_features=4096, out_features=32011, bias=False)
+  )
+)
+dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+loaded /mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl with data_files=/mnt/ceph_rbd/comp_rag/unirag/debug_data/pretrain_data.jsonl
+[Dataset({
+    features: ['data_type', 'question', 'answers', 'docs'],
+    num_rows: 500
+})]
+Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:01, 232.46 examples/s]Map (num_proc=8):  50%|█████     | 252/500 [00:00<00:00, 761.15 examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:02, 166.24 examples/s]Map (num_proc=8):  75%|███████▌  | 376/500 [00:00<00:00, 794.45 examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:02, 149.24 examples/s]Map (num_proc=8):  38%|███▊      | 189/500 [00:00<00:00, 443.99 examples/s]Map (num_proc=8):  38%|███▊      | 189/500 [00:00<00:00, 424.74 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 794.10 examples/s]Map (num_proc=8):  75%|███████▌  | 376/500 [00:00<00:00, 822.76 examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):  75%|███████▌  | 376/500 [00:00<00:00, 764.60 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 634.97 examples/s]
+Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 647.47 examples/s]
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 603.67 examples/s]
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:02, 178.01 examples/s]Map (num_proc=8):  63%|██████▎   | 314/500 [00:00<00:00, 808.35 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 769.33 examples/s]
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+Train epoch:   0%|          | 0/1 [00:00<?, ?it/s]
+Train step of epoch 0:   0%|          | 0/62 [00:00<?, ?it/s][A
+Train step of epoch 0:   2%|▏         | 1/62 [00:01<01:28,  1.44s/it][A
+Train step of epoch 0:   3%|▎         | 2/62 [00:02<01:09,  1.15s/it][A
+Train step of epoch 0:   5%|▍         | 3/62 [00:03<01:00,  1.02s/it][A
+Train step of epoch 0:   6%|▋         | 4/62 [00:04<00:55,  1.04it/s][A
+Train step of epoch 0:   8%|▊         | 5/62 [00:05<00:55,  1.03it/s][A
+Train step of epoch 0:  10%|▉         | 6/62 [00:05<00:51,  1.08it/s][A
+Train step of epoch 0:  11%|█▏        | 7/62 [00:06<00:49,  1.11it/s][A
+Train step of epoch 0:  13%|█▎        | 8/62 [00:07<00:50,  1.06it/s][A
+Train step of epoch 0:  15%|█▍        | 9/62 [00:08<00:48,  1.09it/s][A
+Train step of epoch 0:  16%|█▌        | 10/62 [00:09<00:46,  1.12it/s][A
+Train step of epoch 0:  18%|█▊        | 11/62 [00:10<00:44,  1.14it/s][A
+Train step of epoch 0:  19%|█▉        | 12/62 [00:11<00:44,  1.14it/s][A
+Train step of epoch 0:  21%|██        | 13/62 [00:12<00:42,  1.15it/s][A
+Train step of epoch 0:  23%|██▎       | 14/62 [00:12<00:41,  1.15it/s][A
+Train step of epoch 0:  24%|██▍       | 15/62 [00:13<00:41,  1.14it/s][A
+Train step of epoch 0:  24%|██▍       | 15/62 [00:15<00:41,  1.14it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  26%|██▌       | 16/62 [00:15<00:54,  1.18s/it, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  27%|██▋       | 17/62 [00:16<00:48,  1.08s/it, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  29%|██▉       | 18/62 [00:17<00:44,  1.01s/it, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  31%|███       | 19/62 [00:18<00:41,  1.03it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  32%|███▏      | 20/62 [00:19<00:39,  1.07it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  34%|███▍      | 21/62 [00:20<00:37,  1.10it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  35%|███▌      | 22/62 [00:20<00:35,  1.11it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  37%|███▋      | 23/62 [00:21<00:34,  1.12it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  39%|███▊      | 24/62 [00:22<00:33,  1.13it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  40%|████      | 25/62 [00:23<00:33,  1.09it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  42%|████▏     | 26/62 [00:24<00:35,  1.02it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  44%|████▎     | 27/62 [00:25<00:33,  1.06it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  45%|████▌     | 28/62 [00:26<00:31,  1.09it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  47%|████▋     | 29/62 [00:27<00:29,  1.11it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  48%|████▊     | 30/62 [00:28<00:28,  1.12it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  50%|█████     | 31/62 [00:29<00:27,  1.14it/s, loss=2.12, mse_loss=25, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  50%|█████     | 31/62 [00:29<00:27,  1.14it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  52%|█████▏    | 32/62 [00:29<00:26,  1.12it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  53%|█████▎    | 33/62 [00:30<00:25,  1.14it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  55%|█████▍    | 34/62 [00:32<00:27,  1.04it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  56%|█████▋    | 35/62 [00:32<00:24,  1.08it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  58%|█████▊    | 36/62 [00:33<00:23,  1.11it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  60%|█████▉    | 37/62 [00:34<00:22,  1.13it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  61%|██████▏   | 38/62 [00:35<00:21,  1.14it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  63%|██████▎   | 39/62 [00:36<00:20,  1.15it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  65%|██████▍   | 40/62 [00:37<00:18,  1.16it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  66%|██████▌   | 41/62 [00:37<00:17,  1.17it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  68%|██████▊   | 42/62 [00:38<00:17,  1.17it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  69%|██████▉   | 43/62 [00:39<00:16,  1.17it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  71%|███████   | 44/62 [00:40<00:15,  1.17it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  73%|███████▎  | 45/62 [00:41<00:15,  1.06it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  74%|███████▍  | 46/62 [00:42<00:14,  1.08it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  76%|███████▌  | 47/62 [00:43<00:13,  1.11it/s, loss=2.18, mse_loss=24.2, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  76%|███████▌  | 47/62 [00:44<00:13,  1.11it/s, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0]     [A/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/utils/save_and_load.py:260: UserWarning: Setting `save_embedding_layers` to `True` as the embedding layer has been resized during finetuning.
+  warnings.warn(
+
+Train step of epoch 0:  77%|███████▋  | 48/62 [01:00<01:18,  5.64s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  79%|███████▉  | 49/62 [01:00<00:54,  4.23s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  81%|████████  | 50/62 [01:01<00:38,  3.22s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  82%|████████▏ | 51/62 [01:02<00:27,  2.52s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  84%|████████▍ | 52/62 [01:03<00:20,  2.02s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  85%|████████▌ | 53/62 [01:04<00:15,  1.68s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  87%|████████▋ | 54/62 [01:05<00:11,  1.43s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  89%|████████▊ | 55/62 [01:06<00:08,  1.27s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  90%|█████████ | 56/62 [01:07<00:06,  1.15s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  92%|█████████▏| 57/62 [01:07<00:05,  1.06s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  94%|█████████▎| 58/62 [01:08<00:04,  1.00s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  95%|█████████▌| 59/62 [01:09<00:02,  1.04it/s, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  97%|█████████▋| 60/62 [01:10<00:01,  1.07it/s, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  98%|█████████▊| 61/62 [01:11<00:00,  1.09it/s, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0: 100%|██████████| 62/62 [01:12<00:00,  1.11it/s, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][ATrain epoch: 100%|██████████| 1/1 [01:12<00:00, 72.29s/it]Train epoch: 100%|██████████| 1/1 [01:12<00:00, 72.29s/it]
+Train step of epoch 0: 100%|██████████| 62/62 [01:12<00:00,  1.17s/it, loss=1.5, mse_loss=16, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0]
+Training completed successfully!
+Training completed successfully!
+Training completed successfully!
+Training completed successfully!
+[rank3]:[W1028 20:32:14.894284900 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank0]:[W1028 20:32:14.937014405 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank1]:[W1028 20:32:14.963118018 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank2]:[W1028 20:32:14.000898374 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
++ cp ../../openrlhf/models/modeling_unirag.py /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
+cp: cannot stat '../../openrlhf/models/modeling_unirag.py': No such file or directory

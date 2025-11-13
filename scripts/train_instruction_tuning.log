@@ -1,0 +1,1046 @@
+nohup: ignoring input
++ DEBUG=0
++ export PYTHONPATH=/mnt/ceph_rbd/comp_rag/unirag:
++ PYTHONPATH=/mnt/ceph_rbd/comp_rag/unirag:
++ export WANDB_DIR=/mnt/task_wrapper/user_output/artifacts/data/wandb_logs
++ WANDB_DIR=/mnt/task_wrapper/user_output/artifacts/data/wandb_logs
++ export NCCL_DEBUG=INFO
++ NCCL_DEBUG=INFO
++ data_path=/mnt/ceph_rbd/comp_rag/unirag/debug_data
++ SAVE_MODEL_NAME=unirag_cluster1_2_2m_split_data_single_32_mistral
++ SAVE_PATH=/mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral
++ WANDB_TOKEN=xx
++ MODEL_PATH=/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
++ PRETRAIN_CKPT=/mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
++ mkdir -p /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral
+++ which python
++ echo 'Currently using /mnt/ceph_rbd/conda_env/cprag/bin/python'
+Currently using /mnt/ceph_rbd/conda_env/cprag/bin/python
++ ARG_SCRIPT=distributed_arguments.py
+++ python distributed_arguments.py num_nodes
++ NUM_NODES=1
+++ python distributed_arguments.py master
++ MASTER=127.0.0.1
+++ python distributed_arguments.py port
++ MASTER_PORT=29500
+++ python distributed_arguments.py rank
++ NODE_RANK=0
+++ python distributed_arguments.py num_gpus
++ NUM_LOCAL_GPUS=4
++ WORLD_SIZE=4
++ echo 'Number of nodes: 1'
+Number of nodes: 1
++ echo 'WORLD_SIZE: 4'
+WORLD_SIZE: 4
++ echo 'Number of local GPUs: 4'
+Number of local GPUs: 4
++ echo 'Master: 127.0.0.1'
+Master: 127.0.0.1
++ echo 'Master port: 29500'
+Master port: 29500
++ echo 'Node rank: 0'
+Node rank: 0
++ eval_dataset=xx
++ training_commands='openrlhf.cli.train_sft    --max_len 2048    --dataset /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl    --pretrain /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2    --pretrain_checkpoint /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1    --train_batch_size 128    --micro_train_batch_size 2    --ckpt_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral    --max_samples 500    --save_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral    --save_steps -2    --logging_steps 1    --eval_steps 30    --zero_stage 2    --max_epochs 1    --bf16    --flash_attn    --learning_rate 1e-4    --gradient_checkpointing    --generation_top_k 5    --stage stage1_2    --doc_max_length 256    --compress_rate 32    --mse_loss    --do_eval_gen'
++ DISTRIBUTED_ARGS='--nproc_per_node 4    --nnodes 1    --rdzv_id 101    --rdzv_backend c10d    --rdzv_endpoint 127.0.0.1:29500    --master_addr 127.0.0.1    --master_port 29500    --node_rank 0'
++ echo 'Starting UniRAG stage1_2 training (multinode with torchrun)...'
+Starting UniRAG stage1_2 training (multinode with torchrun)...
++ '[' 0 -eq 0 ']'
++ '[' 1 -gt 1 ']'
++ torchrun --nproc_per_node 4 --nnodes 1 --rdzv_id 101 --rdzv_backend c10d --rdzv_endpoint 127.0.0.1:29500 --master_addr 127.0.0.1 --master_port 29500 --node_rank 0 -m openrlhf.cli.train_sft --max_len 2048 --dataset /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl --pretrain /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2 --pretrain_checkpoint /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1 --train_batch_size 128 --micro_train_batch_size 2 --ckpt_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral --max_samples 500 --save_path /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral --save_steps -2 --logging_steps 1 --eval_steps 30 --zero_stage 2 --max_epochs 1 --bf16 --flash_attn --learning_rate 1e-4 --gradient_checkpointing --generation_top_k 5 --stage stage1_2 --doc_max_length 256 --compress_rate 32 --mse_loss --do_eval_gen
+W1028 20:48:22.653000 24219 site-packages/torch/distributed/run.py:792] 
+W1028 20:48:22.653000 24219 site-packages/torch/distributed/run.py:792] *****************************************
+W1028 20:48:22.653000 24219 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1028 20:48:22.653000 24219 site-packages/torch/distributed/run.py:792] *****************************************
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1_2
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 5
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1_2
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 5
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1_2
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 5
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+============================================================
+UniRAG Training Configuration
+============================================================
+Training stage: stage1_2
+Base model: /mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2
+Document max length: 256
+Compression rate: 32
+Generation top-k: 5
+Dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+Max epochs: 1
+Learning rate: 0.0001
+Batch size (micro/global): 2/128
+============================================================
+Loading model from checkpoint: /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
+Loading model from checkpoint: /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1Loading model from checkpoint: /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
+
+Loading model from checkpoint: /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster2_2m_mix_stage1
+Initializing model from trained checkpoint: UniRAGConfig {
+  "_attn_implementation_autoset": true,
+  "ae_mode": "token",
+  "attn_implementation": null,
+  "auto_map": {
+    "AutoConfig": "modeling_unirag.UniRAGConfig",
+    "AutoModel": "modeling_unirag.UniRAG"
+  },
+  "compr_base_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "compr_every_n_layer": null,
+  "compr_linear_type": "concat",
+  "compr_mlp_hidden_dim": 8096,
+  "compr_model_name": null,
+  "compr_n_layers": 5,
+  "compr_rate": 32,
+  "compr_rms_norm": false,
+  "compr_use_mlp": false,
+  "decoder_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "device_map": null,
+  "different_mem_tokens": true,
+  "doc_max_length": 256,
+  "generation_top_k": 5,
+  "kbtc_training": false,
+  "load_adapters": false,
+  "load_pretrained_checkpoint": false,
+  "lora": true,
+  "lora_compressor": false,
+  "lora_r": 16,
+  "lora_r_compressor": 16,
+  "max_new_tokens": 128,
+  "model_type": "UniRAG",
+  "optimize_mem_tokens": true,
+  "pad_token_id": 2,
+  "pure_inference": false,
+  "quantization": "no",
+  "sep": true,
+  "stage2_retrieval_top_n": 1,
+  "training_form": "both_separately",
+  "training_stage": "stage1_2",
+  "transformers_version": "4.56.2"
+}
+
+Initializing model from trained checkpoint: UniRAGConfig {
+  "_attn_implementation_autoset": true,
+  "ae_mode": "token",
+  "attn_implementation": null,
+  "auto_map": {
+    "AutoConfig": "modeling_unirag.UniRAGConfig",
+    "AutoModel": "modeling_unirag.UniRAG"
+  },
+  "compr_base_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "compr_every_n_layer": null,
+  "compr_linear_type": "concat",
+  "compr_mlp_hidden_dim": 8096,
+  "compr_model_name": null,
+  "compr_n_layers": 5,
+  "compr_rate": 32,
+  "compr_rms_norm": false,
+  "compr_use_mlp": false,
+  "decoder_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "device_map": null,
+  "different_mem_tokens": true,
+  "doc_max_length": 256,
+  "generation_top_k": 5,
+  "kbtc_training": false,
+  "load_adapters": false,
+  "load_pretrained_checkpoint": false,
+  "lora": true,
+  "lora_compressor": false,
+  "lora_r": 16,
+  "lora_r_compressor": 16,
+  "max_new_tokens": 128,
+  "model_type": "UniRAG",
+  "optimize_mem_tokens": true,
+  "pad_token_id": 2,
+  "pure_inference": false,
+  "quantization": "no",
+  "sep": true,
+  "stage2_retrieval_top_n": 1,
+  "training_form": "both_separately",
+  "training_stage": "stage1_2",
+  "transformers_version": "4.56.2"
+}
+
+Initializing model from trained checkpoint: UniRAGConfig {
+  "_attn_implementation_autoset": true,
+  "ae_mode": "token",
+  "attn_implementation": null,
+  "auto_map": {
+    "AutoConfig": "modeling_unirag.UniRAGConfig",
+    "AutoModel": "modeling_unirag.UniRAG"
+  },
+  "compr_base_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "compr_every_n_layer": null,
+  "compr_linear_type": "concat",
+  "compr_mlp_hidden_dim": 8096,
+  "compr_model_name": null,
+  "compr_n_layers": 5,
+  "compr_rate": 32,
+  "compr_rms_norm": false,
+  "compr_use_mlp": false,
+  "decoder_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "device_map": null,
+  "different_mem_tokens": true,
+  "doc_max_length": 256,
+  "generation_top_k": 5,
+  "kbtc_training": false,
+  "load_adapters": false,
+  "load_pretrained_checkpoint": false,
+  "lora": true,
+  "lora_compressor": false,
+  "lora_r": 16,
+  "lora_r_compressor": 16,
+  "max_new_tokens": 128,
+  "model_type": "UniRAG",
+  "optimize_mem_tokens": true,
+  "pad_token_id": 2,
+  "pure_inference": false,
+  "quantization": "no",
+  "sep": true,
+  "stage2_retrieval_top_n": 1,
+  "training_form": "both_separately",
+  "training_stage": "stage1_2",
+  "transformers_version": "4.56.2"
+}
+
+Initializing model from trained checkpoint: UniRAGConfig {
+  "_attn_implementation_autoset": true,
+  "ae_mode": "token",
+  "attn_implementation": null,
+  "auto_map": {
+    "AutoConfig": "modeling_unirag.UniRAGConfig",
+    "AutoModel": "modeling_unirag.UniRAG"
+  },
+  "compr_base_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "compr_every_n_layer": null,
+  "compr_linear_type": "concat",
+  "compr_mlp_hidden_dim": 8096,
+  "compr_model_name": null,
+  "compr_n_layers": 5,
+  "compr_rate": 32,
+  "compr_rms_norm": false,
+  "compr_use_mlp": false,
+  "decoder_model_name": "/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2",
+  "device_map": null,
+  "different_mem_tokens": true,
+  "doc_max_length": 256,
+  "generation_top_k": 5,
+  "kbtc_training": false,
+  "load_adapters": false,
+  "load_pretrained_checkpoint": false,
+  "lora": true,
+  "lora_compressor": false,
+  "lora_r": 16,
+  "lora_r_compressor": 16,
+  "max_new_tokens": 128,
+  "model_type": "UniRAG",
+  "optimize_mem_tokens": true,
+  "pad_token_id": 2,
+  "pure_inference": false,
+  "quantization": "no",
+  "sep": true,
+  "stage2_retrieval_top_n": 1,
+  "training_form": "both_separately",
+  "training_stage": "stage1_2",
+  "transformers_version": "4.56.2"
+}
+
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 37.80it/s]
+Base decoder parameters: 7241732096
+Loading decoder adapter for stage1_2
+Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 36.84it/s]
+Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 36.05it/s]
+Base decoder parameters: 7241732096
+Loading decoder adapter for stage1_2
+Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 35.84it/s]
+Base decoder parameters: 7241732096
+Loading decoder adapter for stage1_2
+Base decoder parameters: 7241732096
+Loading decoder adapter for stage1_2
+Model adapter keys: ['decoder_adapter']
+Model adapter keys: ['decoder_adapter']
+Model adapter keys: ['decoder_adapter']
+Model adapter keys: ['decoder_adapter']
+Memory token count: 8
+Memory token count: 8
+Memory token count: 8
+Memory token count: 8
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+The new lm_head weights will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter decoder_adapter trainable parameters: 41943040
+Adapter decoder_adapter trainable parameters: 41943040
+Loading checkpoint adapter: encoder_adapter
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:196: UserWarning: Already found a `peft_config` attribute in the model. This will lead to having multiple adapters in the model. Make sure to know what you are doing!
+  warnings.warn(
+Loading checkpoint adapter: encoder_adapter
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:196: UserWarning: Already found a `peft_config` attribute in the model. This will lead to having multiple adapters in the model. Make sure to know what you are doing!
+  warnings.warn(
+Loading checkpoint adapter: encoder_adapter
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:196: UserWarning: Already found a `peft_config` attribute in the model. This will lead to having multiple adapters in the model. Make sure to know what you are doing!
+  warnings.warn(
+Loading checkpoint adapter: encoder_adapter
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/tuners/tuners_utils.py:196: UserWarning: Already found a `peft_config` attribute in the model. This will lead to having multiple adapters in the model. Make sure to know what you are doing!
+  warnings.warn(
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+UniRAG(
+  (decoder): MistralForCausalLM(
+    (model): MistralModel(
+      (embed_tokens): Embedding(32011, 4096)
+      (layers): ModuleList(
+        (0-31): 32 x MistralDecoderLayer(
+          (self_attn): MistralAttention(
+            (q_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (k_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=1024, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (v_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=1024, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=1024, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (o_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+          )
+          (mlp): MistralMLP(
+            (gate_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=14336, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (up_proj): lora.Linear(
+              (base_layer): Linear(in_features=4096, out_features=14336, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=4096, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=14336, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (down_proj): lora.Linear(
+              (base_layer): Linear(in_features=14336, out_features=4096, bias=False)
+              (lora_dropout): ModuleDict(
+                (decoder_adapter): Dropout(p=0.1, inplace=False)
+                (encoder_adapter): Dropout(p=0.1, inplace=False)
+              )
+              (lora_A): ModuleDict(
+                (decoder_adapter): Linear(in_features=14336, out_features=16, bias=False)
+                (encoder_adapter): Linear(in_features=14336, out_features=16, bias=False)
+              )
+              (lora_B): ModuleDict(
+                (decoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+                (encoder_adapter): Linear(in_features=16, out_features=4096, bias=False)
+              )
+              (lora_embedding_A): ParameterDict()
+              (lora_embedding_B): ParameterDict()
+              (lora_magnitude_vector): ModuleDict()
+            )
+            (act_fn): SiLU()
+          )
+          (input_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+          (post_attention_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+        )
+      )
+      (norm): MistralRMSNorm((4096,), eps=1e-05)
+      (rotary_emb): MistralRotaryEmbedding()
+    )
+    (lm_head): Linear(in_features=4096, out_features=32011, bias=False)
+  )
+)
+dataset: /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1000 examples [00:00, 40996.83 examples/s]
+打印数据 .jsonl /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+loaded /mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl with data_files=/mnt/ceph_rbd/comp_rag/unirag/debug_data/instruction_tuning_data.jsonl
+[Dataset({
+    features: ['question', 'docs', 'gold_answer', 'answer'],
+    num_rows: 500
+})]
+Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:01, 236.62 examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8):  63%|██████▎   | 314/500 [00:00<00:00, 935.91 examples/s]Map (num_proc=8):   0%|          | 0/500 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 1123.72 examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:02, 193.81 examples/s]Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:02, 184.56 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 744.27 examples/s] 
+Map (num_proc=8):  37%|███▋      | 187/500 [00:00<00:00, 384.79 examples/s]Map (num_proc=8):  25%|██▌       | 126/500 [00:00<00:01, 273.84 examples/s]Map (num_proc=8):  50%|█████     | 252/500 [00:00<00:00, 488.64 examples/s]Map (num_proc=8):  75%|███████▌  | 376/500 [00:00<00:00, 603.50 examples/s]/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+Map (num_proc=8):  13%|█▎        | 63/500 [00:00<00:04, 104.57 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 730.25 examples/s]Map (num_proc=8):  75%|███████▌  | 376/500 [00:00<00:00, 544.93 examples/s]Map (num_proc=8):  63%|██████▎   | 314/500 [00:00<00:00, 543.75 examples/s]Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 532.95 examples/s]
+Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 516.33 examples/s]
+Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 760.60 examples/s]/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+Map (num_proc=8): 100%|██████████| 500/500 [00:00<00:00, 523.16 examples/s]
+/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/torch/utils/cpp_extension.py:2059: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO Bootstrap: Using eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO cudaDriverVersion 12080
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO NCCL version 2.26.2+cuda12.2
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO Comm config Traffic class set to 1397647433
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO cudaDriverVersion 12080
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO Bootstrap: Using eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO NCCL version 2.26.2+cuda12.2
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO cudaDriverVersion 12080
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO Bootstrap: Using eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO NCCL version 2.26.2+cuda12.2
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO Comm config Traffic class set to 1953522020
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO Comm config Traffic class set to 0
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Failed to open libibverbs.so[.1]
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO NET/Socket : Using [0]eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO ncclCommInitRankConfig comm 0x23abb6a0 rank 0 nranks 4 cudaDev 0 nvmlDev 0 busId 5000 commId 0x6bdd1d093cb38941 - Init START
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO Failed to open libibverbs.so[.1]
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO NET/Socket : Using [0]eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO Failed to open libibverbs.so[.1]
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO NET/Socket : Using [0]eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO ncclCommInitRankConfig comm 0x5d014740 rank 2 nranks 4 cudaDev 2 nvmlDev 2 busId 7000 commId 0x6bdd1d093cb38941 - Init START
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO ncclCommInitRankConfig comm 0x188bd6c0 rank 3 nranks 4 cudaDev 3 nvmlDev 3 busId 8000 commId 0x6bdd1d093cb38941 - Init START
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO RAS client listening socket at ::1<28028>
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO cudaDriverVersion 12080
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO Bootstrap: Using eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO NCCL version 2.26.2+cuda12.2
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO Comm config Traffic class set to 1160931660
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO Failed to open libibverbs.so[.1]
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO NET/Socket : Using [0]eth0:10.62.93.242<0>
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO ncclCommInitRankConfig comm 0x657a0e40 rank 1 nranks 4 cudaDev 1 nvmlDev 1 busId 6000 commId 0x6bdd1d093cb38941 - Init START
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO RAS client listening socket at ::1<28028>
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO RAS client listening socket at ::1<28028>
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO RAS client listening socket at ::1<28028>
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Bootstrap timings total 0.275137 (create 0.000050, send 0.000148, recv 0.274098, ring 0.000159, delay 0.000001)
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO Bootstrap timings total 0.261041 (create 0.000046, send 0.000185, recv 0.002575, ring 0.000134, delay 0.000000)
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO Bootstrap timings total 0.258644 (create 0.000060, send 0.000176, recv 0.000243, ring 0.257501, delay 0.000001)
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO Bootstrap timings total 0.001334 (create 0.000074, send 0.000169, recv 0.000350, ring 0.000091, delay 0.000001)
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO NVLS multicast support is not available on dev 3
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO NVLS multicast support is not available on dev 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO NVLS multicast support is not available on dev 0
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO NVLS multicast support is not available on dev 2
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO comm 0x657a0e40 rank 1 nRanks 4 nNodes 1 localRanks 4 localRank 1 MNNVL 0
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO comm 0x188bd6c0 rank 3 nRanks 4 nNodes 1 localRanks 4 localRank 3 MNNVL 0
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO comm 0x5d014740 rank 2 nRanks 4 nNodes 1 localRanks 4 localRank 2 MNNVL 0
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO comm 0x23abb6a0 rank 0 nRanks 4 nNodes 1 localRanks 4 localRank 0 MNNVL 0
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO Trees [0] 2/-1/-1->1->0 [1] 2/-1/-1->1->0 [2] 2/-1/-1->1->0 [3] 2/-1/-1->1->0 [4] 3/-1/-1->1->2 [5] 3/-1/-1->1->2 [6] 3/-1/-1->1->2 [7] 3/-1/-1->1->2 [8] 0/-1/-1->1->-1 [9] 0/-1/-1->1->-1 [10] 0/-1/-1->1->-1 [11] 0/-1/-1->1->-1 [12] 2/-1/-1->1->0 [13] 2/-1/-1->1->0 [14] 2/-1/-1->1->0 [15] 2/-1/-1->1->0 [16] 3/-1/-1->1->2 [17] 3/-1/-1->1->2 [18] 3/-1/-1->1->2 [19] 3/-1/-1->1->2 [20] 0/-1/-1->1->-1 [21] 0/-1/-1->1->-1 [22] 0/-1/-1->1->-1 [23] 0/-1/-1->1->-1
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO Trees [0] -1/-1/-1->3->2 [1] -1/-1/-1->3->2 [2] -1/-1/-1->3->2 [3] -1/-1/-1->3->2 [4] -1/-1/-1->3->1 [5] -1/-1/-1->3->1 [6] -1/-1/-1->3->1 [7] -1/-1/-1->3->1 [8] 2/-1/-1->3->0 [9] 2/-1/-1->3->0 [10] 2/-1/-1->3->0 [11] 2/-1/-1->3->0 [12] -1/-1/-1->3->2 [13] -1/-1/-1->3->2 [14] -1/-1/-1->3->2 [15] -1/-1/-1->3->2 [16] -1/-1/-1->3->1 [17] -1/-1/-1->3->1 [18] -1/-1/-1->3->1 [19] -1/-1/-1->3->1 [20] 2/-1/-1->3->0 [21] 2/-1/-1->3->0 [22] 2/-1/-1->3->0 [23] 2/-1/-1->3->0
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 00/24 : 0 1 2 3
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO Trees [0] 3/-1/-1->2->1 [1] 3/-1/-1->2->1 [2] 3/-1/-1->2->1 [3] 3/-1/-1->2->1 [4] 1/-1/-1->2->0 [5] 1/-1/-1->2->0 [6] 1/-1/-1->2->0 [7] 1/-1/-1->2->0 [8] -1/-1/-1->2->3 [9] -1/-1/-1->2->3 [10] -1/-1/-1->2->3 [11] -1/-1/-1->2->3 [12] 3/-1/-1->2->1 [13] 3/-1/-1->2->1 [14] 3/-1/-1->2->1 [15] 3/-1/-1->2->1 [16] 1/-1/-1->2->0 [17] 1/-1/-1->2->0 [18] 1/-1/-1->2->0 [19] 1/-1/-1->2->0 [20] -1/-1/-1->2->3 [21] -1/-1/-1->2->3 [22] -1/-1/-1->2->3 [23] -1/-1/-1->2->3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 01/24 : 0 1 3 2
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 02/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 03/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 04/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 05/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 06/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 07/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 08/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 09/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 10/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 11/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 12/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 13/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 14/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 15/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 16/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 17/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 18/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 19/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 20/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 21/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 22/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Channel 23/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] 1/-1/-1->0->-1 [3] 1/-1/-1->0->-1 [4] 2/-1/-1->0->-1 [5] 2/-1/-1->0->-1 [6] 2/-1/-1->0->-1 [7] 2/-1/-1->0->-1 [8] 3/-1/-1->0->1 [9] 3/-1/-1->0->1 [10] 3/-1/-1->0->1 [11] 3/-1/-1->0->1 [12] 1/-1/-1->0->-1 [13] 1/-1/-1->0->-1 [14] 1/-1/-1->0->-1 [15] 1/-1/-1->0->-1 [16] 2/-1/-1->0->-1 [17] 2/-1/-1->0->-1 [18] 2/-1/-1->0->-1 [19] 2/-1/-1->0->-1 [20] 3/-1/-1->0->1 [21] 3/-1/-1->0->1 [22] 3/-1/-1->0->1 [23] 3/-1/-1->0->1
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 1 directMode 0
+peftkg2b6-v2tpq:24302:25887 [0] NCCL INFO [Proxy Service] Device 0 CPU core 116
+peftkg2b6-v2tpq:24302:25888 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 117
+peftkg2b6-v2tpq:24303:25889 [1] NCCL INFO [Proxy Service] Device 1 CPU core 89
+peftkg2b6-v2tpq:24303:25890 [1] NCCL INFO [Proxy Service UDS] Device 1 CPU core 90
+peftkg2b6-v2tpq:24305:25891 [3] NCCL INFO [Proxy Service] Device 3 CPU core 114
+peftkg2b6-v2tpq:24305:25892 [3] NCCL INFO [Proxy Service UDS] Device 3 CPU core 121
+peftkg2b6-v2tpq:24304:25893 [2] NCCL INFO [Proxy Service] Device 2 CPU core 18
+peftkg2b6-v2tpq:24304:25894 [2] NCCL INFO [Proxy Service UDS] Device 2 CPU core 22
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO CC Off, workFifoBytes 1048576
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO ncclCommInitRankConfig comm 0x5d014740 rank 2 nranks 4 cudaDev 2 nvmlDev 2 busId 7000 commId 0x6bdd1d093cb38941 - Init COMPLETE
+peftkg2b6-v2tpq:24304:25878 [2] NCCL INFO Init timings - ncclCommInitRankConfig: rank 2 nranks 4 total 0.59 (kernels 0.20, alloc 0.01, bootstrap 0.26, allgathers 0.00, topo 0.02, graphs 0.01, connections 0.06, rest 0.02)
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO ncclCommInitRankConfig comm 0x23abb6a0 rank 0 nranks 4 cudaDev 0 nvmlDev 0 busId 5000 commId 0x6bdd1d093cb38941 - Init COMPLETE
+peftkg2b6-v2tpq:24302:25877 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 4 total 0.60 (kernels 0.20, alloc 0.01, bootstrap 0.28, allgathers 0.00, topo 0.02, graphs 0.01, connections 0.04, rest 0.04)
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO ncclCommInitRankConfig comm 0x657a0e40 rank 1 nranks 4 cudaDev 1 nvmlDev 1 busId 6000 commId 0x6bdd1d093cb38941 - Init COMPLETE
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO ncclCommInitRankConfig comm 0x188bd6c0 rank 3 nranks 4 cudaDev 3 nvmlDev 3 busId 8000 commId 0x6bdd1d093cb38941 - Init COMPLETE
+peftkg2b6-v2tpq:24303:25883 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 4 total 0.30 (kernels 0.18, alloc 0.01, bootstrap 0.00, allgathers 0.00, topo 0.02, graphs 0.01, connections 0.06, rest 0.03)
+peftkg2b6-v2tpq:24305:25879 [3] NCCL INFO Init timings - ncclCommInitRankConfig: rank 3 nranks 4 total 0.59 (kernels 0.20, alloc 0.01, bootstrap 0.26, allgathers 0.01, topo 0.02, graphs 0.00, connections 0.04, rest 0.04)
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 00/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 03/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 06/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 09/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 12/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 12/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 15/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 13/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 18/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 18/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 19/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 21/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 00/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 02/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 06/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 08/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 00/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 04/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 06/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 10/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 12/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 14/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 18/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 12/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 20/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 16/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 18/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 22/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 02/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 04/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 08/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 02/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 03/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 10/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 14/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 08/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 16/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 09/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 20/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 14/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 22/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 15/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 20/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 21/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 01/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 01/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 04/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 03/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 07/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 07/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 10/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 09/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 13/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 13/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 15/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 16/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 19/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 19/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 22/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 21/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 04/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 05/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 01/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 10/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 11/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 05/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 07/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 16/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 17/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 11/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 13/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 22/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 17/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Channel 23/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 19/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Channel 23/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 03/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 02/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 05/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 05/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 09/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 08/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 11/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 11/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 15/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 14/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 17/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 17/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 20/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 21/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Channel 23/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Channel 23/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:25897 [3] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24304:25895 [2] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24303:25896 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24302:25898 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+Train epoch:   0%|          | 0/1 [00:00<?, ?it/s]
+Train step of epoch 0:   0%|          | 0/62 [00:00<?, ?it/s][A
+Train step of epoch 0:   2%|▏         | 1/62 [00:01<01:34,  1.54s/it][A
+Train step of epoch 0:   3%|▎         | 2/62 [00:02<01:14,  1.24s/it][A
+Train step of epoch 0:   5%|▍         | 3/62 [00:03<01:07,  1.14s/it][A
+Train step of epoch 0:   6%|▋         | 4/62 [00:04<01:03,  1.09s/it][A
+Train step of epoch 0:   8%|▊         | 5/62 [00:05<01:00,  1.06s/it][A
+Train step of epoch 0:  10%|▉         | 6/62 [00:06<00:58,  1.05s/it][A
+Train step of epoch 0:  11%|█▏        | 7/62 [00:07<00:56,  1.03s/it][A
+Train step of epoch 0:  13%|█▎        | 8/62 [00:08<00:55,  1.02s/it][A
+Train step of epoch 0:  15%|█▍        | 9/62 [00:09<00:53,  1.01s/it][A
+Train step of epoch 0:  16%|█▌        | 10/62 [00:10<00:52,  1.01s/it][A
+Train step of epoch 0:  18%|█▊        | 11/62 [00:11<00:51,  1.01s/it][A
+Train step of epoch 0:  19%|█▉        | 12/62 [00:12<00:50,  1.01s/it][A
+Train step of epoch 0:  21%|██        | 13/62 [00:13<00:49,  1.00s/it][A
+Train step of epoch 0:  23%|██▎       | 14/62 [00:14<00:48,  1.00s/it][A
+Train step of epoch 0:  24%|██▍       | 15/62 [00:15<00:47,  1.00s/it][Apeftkg2b6-v2tpq:24302:24302 [0] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24302:24302 [0] NCCL INFO Comm config Traffic class set to 30734
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24305:24305 [3] NCCL INFO Comm config Traffic class set to -1680555818
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24303:24303 [1] NCCL INFO Comm config Traffic class set to 29761
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO ncclCommInitRankConfig comm 0x38903370 rank 0 nranks 4 cudaDev 0 nvmlDev 0 busId 5000 commId 0x3e454e117341c051 - Init START
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO ncclCommInitRankConfig comm 0x35fe28c0 rank 3 nranks 4 cudaDev 3 nvmlDev 3 busId 8000 commId 0x3e454e117341c051 - Init START
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO ncclCommInitRankConfig comm 0x48b62970 rank 1 nranks 4 cudaDev 1 nvmlDev 1 busId 6000 commId 0x3e454e117341c051 - Init START
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO Comm config Blocking set to 1
+peftkg2b6-v2tpq:24304:24304 [2] NCCL INFO Comm config Traffic class set to 32669
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO Using network Socket
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO ncclCommInitRankConfig comm 0x41465f00 rank 2 nranks 4 cudaDev 2 nvmlDev 2 busId 7000 commId 0x3e454e117341c051 - Init START
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO Bootstrap timings total 0.002059 (create 0.000055, send 0.000208, recv 0.000124, ring 0.000080, delay 0.000000)
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO Bootstrap timings total 0.000700 (create 0.000036, send 0.000146, recv 0.000220, ring 0.000078, delay 0.000000)
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO Bootstrap timings total 0.001896 (create 0.000065, send 0.000145, recv 0.001257, ring 0.000201, delay 0.000000)
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Bootstrap timings total 0.002362 (create 0.000059, send 0.000224, recv 0.000545, ring 0.001301, delay 0.000000)
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO NVLS multicast support is not available on dev 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO NVLS multicast support is not available on dev 0
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO NVLS multicast support is not available on dev 1
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO NVLS multicast support is not available on dev 2
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO comm 0x35fe28c0 rank 3 nRanks 4 nNodes 1 localRanks 4 localRank 3 MNNVL 0
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO comm 0x38903370 rank 0 nRanks 4 nNodes 1 localRanks 4 localRank 0 MNNVL 0
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO comm 0x48b62970 rank 1 nRanks 4 nNodes 1 localRanks 4 localRank 1 MNNVL 0
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO comm 0x41465f00 rank 2 nRanks 4 nNodes 1 localRanks 4 localRank 2 MNNVL 0
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 00/24 : 0 1 2 3
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO Trees [0] -1/-1/-1->3->2 [1] -1/-1/-1->3->2 [2] -1/-1/-1->3->2 [3] -1/-1/-1->3->2 [4] -1/-1/-1->3->1 [5] -1/-1/-1->3->1 [6] -1/-1/-1->3->1 [7] -1/-1/-1->3->1 [8] 2/-1/-1->3->0 [9] 2/-1/-1->3->0 [10] 2/-1/-1->3->0 [11] 2/-1/-1->3->0 [12] -1/-1/-1->3->2 [13] -1/-1/-1->3->2 [14] -1/-1/-1->3->2 [15] -1/-1/-1->3->2 [16] -1/-1/-1->3->1 [17] -1/-1/-1->3->1 [18] -1/-1/-1->3->1 [19] -1/-1/-1->3->1 [20] 2/-1/-1->3->0 [21] 2/-1/-1->3->0 [22] 2/-1/-1->3->0 [23] 2/-1/-1->3->0
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO Trees [0] 2/-1/-1->1->0 [1] 2/-1/-1->1->0 [2] 2/-1/-1->1->0 [3] 2/-1/-1->1->0 [4] 3/-1/-1->1->2 [5] 3/-1/-1->1->2 [6] 3/-1/-1->1->2 [7] 3/-1/-1->1->2 [8] 0/-1/-1->1->-1 [9] 0/-1/-1->1->-1 [10] 0/-1/-1->1->-1 [11] 0/-1/-1->1->-1 [12] 2/-1/-1->1->0 [13] 2/-1/-1->1->0 [14] 2/-1/-1->1->0 [15] 2/-1/-1->1->0 [16] 3/-1/-1->1->2 [17] 3/-1/-1->1->2 [18] 3/-1/-1->1->2 [19] 3/-1/-1->1->2 [20] 0/-1/-1->1->-1 [21] 0/-1/-1->1->-1 [22] 0/-1/-1->1->-1 [23] 0/-1/-1->1->-1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 01/24 : 0 1 3 2
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO Trees [0] 3/-1/-1->2->1 [1] 3/-1/-1->2->1 [2] 3/-1/-1->2->1 [3] 3/-1/-1->2->1 [4] 1/-1/-1->2->0 [5] 1/-1/-1->2->0 [6] 1/-1/-1->2->0 [7] 1/-1/-1->2->0 [8] -1/-1/-1->2->3 [9] -1/-1/-1->2->3 [10] -1/-1/-1->2->3 [11] -1/-1/-1->2->3 [12] 3/-1/-1->2->1 [13] 3/-1/-1->2->1 [14] 3/-1/-1->2->1 [15] 3/-1/-1->2->1 [16] 1/-1/-1->2->0 [17] 1/-1/-1->2->0 [18] 1/-1/-1->2->0 [19] 1/-1/-1->2->0 [20] -1/-1/-1->2->3 [21] -1/-1/-1->2->3 [22] -1/-1/-1->2->3 [23] -1/-1/-1->2->3
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 02/24 : 0 2 3 1
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 03/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 04/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 05/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 06/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 07/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 08/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 09/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 10/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 11/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 12/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 13/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 14/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 15/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 16/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 17/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 18/24 : 0 1 2 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 19/24 : 0 1 3 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 20/24 : 0 2 3 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 21/24 : 0 2 1 3
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 22/24 : 0 3 1 2
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Channel 23/24 : 0 3 2 1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] 1/-1/-1->0->-1 [3] 1/-1/-1->0->-1 [4] 2/-1/-1->0->-1 [5] 2/-1/-1->0->-1 [6] 2/-1/-1->0->-1 [7] 2/-1/-1->0->-1 [8] 3/-1/-1->0->1 [9] 3/-1/-1->0->1 [10] 3/-1/-1->0->1 [11] 3/-1/-1->0->1 [12] 1/-1/-1->0->-1 [13] 1/-1/-1->0->-1 [14] 1/-1/-1->0->-1 [15] 1/-1/-1->0->-1 [16] 2/-1/-1->0->-1 [17] 2/-1/-1->0->-1 [18] 2/-1/-1->0->-1 [19] 2/-1/-1->0->-1 [20] 3/-1/-1->0->1 [21] 3/-1/-1->0->1 [22] 3/-1/-1->0->1 [23] 3/-1/-1->0->1
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO P2P Chunksize set to 524288
+peftkg2b6-v2tpq:24305:26382 [3] NCCL INFO [Proxy Service] Device 3 CPU core 113
+peftkg2b6-v2tpq:24305:26383 [3] NCCL INFO [Proxy Service UDS] Device 3 CPU core 114
+peftkg2b6-v2tpq:24303:26384 [1] NCCL INFO [Proxy Service] Device 1 CPU core 89
+peftkg2b6-v2tpq:24303:26385 [1] NCCL INFO [Proxy Service UDS] Device 1 CPU core 90
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 1 directMode 0
+peftkg2b6-v2tpq:24302:26386 [0] NCCL INFO [Proxy Service] Device 0 CPU core 0
+peftkg2b6-v2tpq:24302:26387 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 4
+peftkg2b6-v2tpq:24304:26389 [2] NCCL INFO [Proxy Service UDS] Device 2 CPU core 17
+peftkg2b6-v2tpq:24304:26388 [2] NCCL INFO [Proxy Service] Device 2 CPU core 16
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO CC Off, workFifoBytes 1048576
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO threadThresholds 8/8/64 | 32/8/64 | 512 | 512
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 8 p2p channels per peer
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO ncclCommInitRankConfig comm 0x48b62970 rank 1 nranks 4 cudaDev 1 nvmlDev 1 busId 6000 commId 0x3e454e117341c051 - Init COMPLETE
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO ncclCommInitRankConfig comm 0x35fe28c0 rank 3 nranks 4 cudaDev 3 nvmlDev 3 busId 8000 commId 0x3e454e117341c051 - Init COMPLETE
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO ncclCommInitRankConfig comm 0x38903370 rank 0 nranks 4 cudaDev 0 nvmlDev 0 busId 5000 commId 0x3e454e117341c051 - Init COMPLETE
+peftkg2b6-v2tpq:24303:26380 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 4 total 0.10 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.02, graphs 0.01, connections 0.05, rest 0.02)
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO ncclCommInitRankConfig comm 0x41465f00 rank 2 nranks 4 cudaDev 2 nvmlDev 2 busId 7000 commId 0x3e454e117341c051 - Init COMPLETE
+peftkg2b6-v2tpq:24305:26379 [3] NCCL INFO Init timings - ncclCommInitRankConfig: rank 3 nranks 4 total 0.10 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.02, graphs 0.00, connections 0.06, rest 0.02)
+peftkg2b6-v2tpq:24304:26381 [2] NCCL INFO Init timings - ncclCommInitRankConfig: rank 2 nranks 4 total 0.10 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.02, graphs 0.00, connections 0.05, rest 0.02)
+peftkg2b6-v2tpq:24302:26378 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 4 total 0.10 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.02, graphs 0.00, connections 0.05, rest 0.02)
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 00/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 00/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 03/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 04/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 00/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 06/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 06/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 02/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 09/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 10/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 06/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 12/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 12/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 13/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 12/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 08/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 15/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 18/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 16/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 12/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 18/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 19/0 : 0[0] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 14/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 18/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 21/0 : 3[3] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 18/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 22/0 : 1[1] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 20/0 : 2[2] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 02/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 01/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 02/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 03/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 08/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 01/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 03/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 04/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 08/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 04/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 09/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 07/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 09/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 10/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 07/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 14/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 10/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 13/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 15/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 14/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 16/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 20/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 13/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 15/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 19/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 21/0 : 0[0] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 16/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 20/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 21/0 : 1[1] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 19/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 22/0 : 3[3] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 22/0 : 2[2] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 01/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 04/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 05/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 05/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 07/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 10/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 11/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 11/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 13/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 16/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 17/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 17/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 19/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 22/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Channel 23/0 : 3[3] -> 2[2] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Channel 23/0 : 0[0] -> 3[3] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 02/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 05/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 08/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 11/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 03/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 05/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 09/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 11/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 14/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 17/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 20/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Channel 23/0 : 1[1] -> 0[0] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 15/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 17/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 21/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Channel 23/0 : 2[2] -> 1[1] via P2P/CUMEM/read
+peftkg2b6-v2tpq:24304:26392 [2] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24303:26390 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24305:26391 [3] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+peftkg2b6-v2tpq:24302:26393 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+
+Train step of epoch 0:  24%|██▍       | 15/62 [00:17<00:47,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  26%|██▌       | 16/62 [00:17<00:54,  1.19s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  27%|██▋       | 17/62 [00:18<00:50,  1.13s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  29%|██▉       | 18/62 [00:19<00:48,  1.10s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  31%|███       | 19/62 [00:20<00:45,  1.06s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  32%|███▏      | 20/62 [00:21<00:43,  1.04s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  34%|███▍      | 21/62 [00:22<00:42,  1.03s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  35%|███▌      | 22/62 [00:23<00:40,  1.02s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  37%|███▋      | 23/62 [00:24<00:39,  1.01s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  39%|███▊      | 24/62 [00:25<00:38,  1.01s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  40%|████      | 25/62 [00:26<00:37,  1.01s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  42%|████▏     | 26/62 [00:27<00:36,  1.01s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  44%|████▎     | 27/62 [00:28<00:35,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  45%|████▌     | 28/62 [00:29<00:34,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  47%|████▋     | 29/62 [00:30<00:33,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  48%|████▊     | 30/62 [00:31<00:32,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  50%|█████     | 31/62 [00:32<00:31,  1.00s/it, loss=4.31, mse_loss=12.8, lr=0.0001, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  50%|█████     | 31/62 [00:33<00:31,  1.00s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0]  [A
+Train step of epoch 0:  52%|█████▏    | 32/62 [00:33<00:30,  1.00s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  53%|█████▎    | 33/62 [00:34<00:29,  1.00s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  55%|█████▍    | 34/62 [00:35<00:28,  1.00s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  56%|█████▋    | 35/62 [00:36<00:27,  1.00s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  58%|█████▊    | 36/62 [00:37<00:25,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  60%|█████▉    | 37/62 [00:38<00:24,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  61%|██████▏   | 38/62 [00:39<00:23,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  63%|██████▎   | 39/62 [00:40<00:22,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  65%|██████▍   | 40/62 [00:41<00:21,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  66%|██████▌   | 41/62 [00:42<00:20,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  68%|██████▊   | 42/62 [00:43<00:19,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  69%|██████▉   | 43/62 [00:44<00:18,  1.00it/s, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  71%|███████   | 44/62 [00:45<00:19,  1.11s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  73%|███████▎  | 45/62 [00:46<00:18,  1.07s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  74%|███████▍  | 46/62 [00:47<00:16,  1.05s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  76%|███████▌  | 47/62 [00:48<00:15,  1.03s/it, loss=4.05, mse_loss=13, lr=5.5e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  76%|███████▌  | 47/62 [00:49<00:15,  1.03s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A/mnt/ceph_rbd/conda_env/cprag/lib/python3.10/site-packages/peft/utils/save_and_load.py:300: UserWarning: Setting `save_embedding_layers` to `True` as the embedding layer has been resized during finetuning.
+  warnings.warn(
+
+Train step of epoch 0:  77%|███████▋  | 48/62 [01:04<01:16,  5.45s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  79%|███████▉  | 49/62 [01:05<00:53,  4.13s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  81%|████████  | 50/62 [01:06<00:38,  3.19s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  82%|████████▏ | 51/62 [01:07<00:27,  2.53s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  84%|████████▍ | 52/62 [01:08<00:20,  2.07s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  85%|████████▌ | 53/62 [01:09<00:15,  1.75s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  87%|████████▋ | 54/62 [01:10<00:12,  1.52s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  89%|████████▊ | 55/62 [01:11<00:09,  1.37s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  90%|█████████ | 56/62 [01:12<00:07,  1.25s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  92%|█████████▏| 57/62 [01:13<00:05,  1.17s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  94%|█████████▎| 58/62 [01:14<00:04,  1.12s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  95%|█████████▌| 59/62 [01:15<00:03,  1.09s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  97%|█████████▋| 60/62 [01:16<00:02,  1.06s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0:  98%|█████████▊| 61/62 [01:17<00:01,  1.04s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][A
+Train step of epoch 0: 100%|██████████| 62/62 [01:18<00:00,  1.03s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0][ATrain epoch: 100%|██████████| 1/1 [01:18<00:00, 78.37s/it]Train epoch: 100%|██████████| 1/1 [01:18<00:00, 78.37s/it]
+Train step of epoch 0: 100%|██████████| 62/62 [01:18<00:00,  1.26s/it, loss=2.22, mse_loss=13.9, lr=1e-5, retrieval_recall_1=0, retrieval_recall_3=0, retrieval_recall_5=0, retrieval_precision_1=0, retrieval_precision_3=0, retrieval_precision_5=0]
+Training completed successfully!
+Training completed successfully!
+Training completed successfully!
+Training completed successfully!
+[rank1]:[W1028 20:51:14.522101416 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24303:26384 [1] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO misc/socket.cc:829 -> 3
+[rank2]:[W1028 20:51:14.565610427 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24303:26384 [1] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24304:26388 [2] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO misc/socket.cc:829 -> 3
+[rank0]:[W1028 20:51:14.609176215 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24302:26386 [0] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24304:26388 [2] NCCL INFO misc/socket.cc:881 -> 3
+[rank3]:[W1028 20:51:14.624357507 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24302:26386 [0] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:64 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:80 -> 3
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO misc/socket.cc:829 -> 3
+peftkg2b6-v2tpq:24305:26382 [3] NCCL INFO misc/socket.cc:881 -> 3
+peftkg2b6-v2tpq:24303:27829 [1] NCCL INFO comm 0x48b62970 rank 1 nranks 4 cudaDev 1 busId 6000 - Abort COMPLETE
+peftkg2b6-v2tpq:24302:27839 [0] NCCL INFO comm 0x38903370 rank 0 nranks 4 cudaDev 0 busId 5000 - Abort COMPLETE
+peftkg2b6-v2tpq:24304:27834 [2] NCCL INFO comm 0x41465f00 rank 2 nranks 4 cudaDev 2 busId 7000 - Abort COMPLETE
+peftkg2b6-v2tpq:24305:27844 [3] NCCL INFO comm 0x35fe28c0 rank 3 nranks 4 cudaDev 3 busId 8000 - Abort COMPLETE
+peftkg2b6-v2tpq:24305:25891 [3] NCCL INFO [Service thread] Connection closed by localRank 1
+peftkg2b6-v2tpq:24305:25891 [3] NCCL INFO [Service thread] Connection closed by localRank 2
+peftkg2b6-v2tpq:24305:25891 [3] NCCL INFO [Service thread] Connection closed by localRank 0
++ cp ../openrlhf/models/modeling_unirag.py /mnt/ceph_rbd/comp_rag/unirag/debug_data/train_checkpoint/unirag_cluster1_2_2m_split_data_single_32_mistral

@@ -1,0 +1,61 @@
+# Jekyll configuration for CLaRa Documentation
+
+# Site settings
+title: CLaRa Documentation
+description: Complete documentation for CLaRa - Unified Retrieval-Augmented Generation with Compression
+baseurl: "/CLaRa" # the subpath of your site for GitHub Pages
+url: "https://aiml-oss.github.io" # the base hostname & protocol for GitHub Pages
+
+# Theme
+theme: jekyll-theme-cayman
+# Alternative themes:
+# theme: jekyll-theme-minimal
+# theme: jekyll-theme-slate
+# theme: jekyll-theme-architect
+
+# GitHub repository info
+repository: probe2/CLaRa
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Navigation
+header_pages:
+  - index.md
+  - getting_started.md
+  - training.md
+  - inference.md
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - "*.sh"
+  - "*.log"
+
+# Collections and navigation
+# collections:
+#   docs:
+#     output: true
+#     permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      values:
+        layout: "default"
