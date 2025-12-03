@@ -42,7 +42,7 @@ For more interesting findings, please refer to our original paper!
 CLaRa uses a carefully designed three-stage training approach:
 
 **Stage 1: Compression Pretraining**
-- Train the compressor using KPCP framework with QA pairs and paraphrases
+- Train the compressor using SCP framework with QA pairs and paraphrases
 - Retain key semantics through QA-based and paraphrase-guided supervision
 - Support compression rates of 1x-256x
 
@@ -131,7 +131,7 @@ For end-to-end training:
 
 #### 3. Start training
 
-**Stage 1: Compression Pretraining (KPCP)**
+**Stage 1: Salient Compressor Pretraining (SCP)**
 
 Pre-train the document compressor :
 
