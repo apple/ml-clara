@@ -1,7 +1,7 @@
 ##  CLaRa: Bridging Retrieval and Generation with Continuous Latent Reasoning
 
 <div align="center">
-  <img src="figs/clara_logo.jpg" width="300"/>
+  <img src="figs/clara_logo.jpg" width="400"/>
 </div>
 
 <div align="center">
