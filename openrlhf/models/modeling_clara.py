@@ -138,7 +138,7 @@ class CLaRaConfig(PretrainedConfig):
                  compr_rate: int = 64,
                  compr_n_layers: int = None,
                  compr_every_n_layer: int = None,
-                 compr_base_model_name: str = '/mnt/ceph_rbd/model/Mistral-7B-Instruct-v0.2',
+                 compr_base_model_name: str = 'mistralai/Mistral-7B-Instruct-v0.2',
                  compr_rms_norm: bool = False,
                  compr_mlp_hidden_dim: int = 8096,
                  compr_use_mlp: bool = True,
