@@ -9,7 +9,7 @@ from datasets import interleave_datasets, load_dataset, load_from_disk
 
 
 def exist_and_not_none(d, key):
-    return key in d and not d[key] is None
+    return key in d and d[key] is not None
 
 
 def blending_datasets(
