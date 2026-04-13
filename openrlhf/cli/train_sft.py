@@ -14,16 +14,15 @@ import argparse
 import math
 import os
 from datetime import datetime
-from typing import Optional
 
 from transformers.trainer import get_scheduler
 
 from openrlhf.datasets import SFTDataset
+from openrlhf.datasets.sft_dataset import make_collate_fn
 from openrlhf.datasets.utils import blending_datasets
+from openrlhf.models.modeling_clara import CLaRa, CLaRaConfig
 from openrlhf.trainer.sft_trainer import SFTTrainer
 from openrlhf.utils import get_strategy, get_tokenizer
-from openrlhf.models.modeling_clara import CLaRaConfig, CLaRa
-from openrlhf.datasets.sft_dataset import make_collate_fn
 
 
 def create_clara_config(args: argparse.Namespace) -> CLaRaConfig:

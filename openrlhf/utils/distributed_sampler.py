@@ -11,7 +11,6 @@ import torch.distributed as dist
 from torch.utils.data.dataset import Dataset
 from torch.utils.data.sampler import Sampler
 
-
 __all__ = ["DistributedSampler"]
 
 

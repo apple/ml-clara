@@ -11,11 +11,11 @@ This module provides dataset handling and batch collation for CLaRa training.
 """
 
 import re
-import torch
-from typing import Callable, List, Tuple, Dict, Any, Optional
 from collections import defaultdict
+from typing import Any, Callable, Dict, List, Optional, Tuple
+
+import torch
 from torch.utils.data import Dataset
-from openrlhf.utils.utils import zero_pad_sequences
 
 
 def make_collate_fn(clara_model, enc_max_len: int = 256, dec_max_len: int = 1024, qa_loss: bool = False):

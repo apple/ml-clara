@@ -3,33 +3,29 @@
 # Copyright (C) 2025 Apple Inc. All Rights Reserved.
 #
 
-import warnings
-import os
-import torch
 import gc
-import time
-import json
-import copy
+import os
 import random
-import requests
-import re
+import time
+import warnings
+from typing import Dict, List, Tuple
 
+import requests
+import torch
+from huggingface_hub import hf_hub_download
+from jinja2.exceptions import TemplateError
+from peft import LoraConfig
 from torch import nn
 from torch.nn import functional as F
 from torch.nn.functional import gelu
-from jinja2.exceptions import TemplateError
-from peft import LoraConfig
 from transformers import (
-    AutoModelForCausalLM, 
-    AutoTokenizer, 
-    BitsAndBytesConfig, 
-    PreTrainedModel, 
-    PretrainedConfig, 
-    StoppingCriteria, 
-    StoppingCriteriaList
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    PretrainedConfig,
+    PreTrainedModel,
+    StoppingCriteria,
 )
-from huggingface_hub import hf_hub_download
-from typing import List, Dict, Any, Optional, Tuple
 
 # Environment setup
 torch.set_printoptions(threshold=float("inf"))

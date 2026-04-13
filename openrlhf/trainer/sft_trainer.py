@@ -15,7 +15,7 @@ import re
 import string
 from abc import ABC
 from collections import Counter
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
 import torch
 from torch.optim import Optimizer

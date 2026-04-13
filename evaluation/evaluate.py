@@ -3,27 +3,25 @@
 # Copyright (C) 2025 Apple Inc. All Rights Reserved.
 #
 
-import os
-import json
 import argparse
 import gc
-from datetime import timedelta
-from collections import defaultdict, Counter
-from typing import List, Dict, Any, Optional, Tuple
-
-import torch
-import numpy as np
-from accelerate import Accelerator, InitProcessGroupKwargs
-from transformers import AutoModel
-from datasets import load_dataset
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
-import spacy
-import evaluate
+import json
+import os
 import re
 import string
+from collections import Counter, defaultdict
+from datetime import timedelta
+from typing import Any, Dict, List, Tuple
+
+import evaluate
+import matplotlib.pyplot as plt
+import numpy as np
+import spacy
+import torch
+from accelerate import Accelerator, InitProcessGroupKwargs
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from tqdm import tqdm
 
 from openrlhf.models.modeling_clara import CLaRa
 
@@ -399,11 +397,11 @@ class ResultCalculator:
         print("\n" + "="*60)
         print("VISUALIZATION ANALYSIS REPORT")
         print("="*60)
-        print(f"Dataset Statistics:")
+        print("Dataset Statistics:")
         print(f"  • Total samples: {len(mem_reps)}")
         print(f"  • Original dimension: {original_dim}")
         print(f"  • t-SNE perplexity: {perplexity}")
-        print(f"\nDistance Analysis:")
+        print("\nDistance Analysis:")
         for key, value in statistics.items():
             print(f"  • {key.replace('_', ' ').title()}: {value:.4f}")
         print("="*60)
