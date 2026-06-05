@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+
+checkpoints/
+base_models/
+
+*.pt
+*.bin
+*.safetensors
+
+notes/*.tmp
+evaluation/evaluation_data/
+checkpoints/
+__pycache__/
+*.jsonl

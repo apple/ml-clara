@@ -682,8 +682,14 @@ class CLaRa(PreTrainedModel):
                     F.normalize(query_reps, dim=-1, p=2).unsqueeze(1).float(),
                     F.normalize(retrieved_doc_embeddings, dim=-1, p=2).float().transpose(1, 2)
                 ).squeeze(1)
+                print("="*60)
+                print("NUM_DOCS =", len(documents[0]))
+                print("generation_top_k =", self.generation_top_k)
+                print("scores shape =", scores.shape)
+                print("="*60)
                 
-                z, topk_idx = differentiable_topk(scores, self.generation_top_k, temperature=0.02)
+                k = min(self.generation_top_k, scores.shape[1])
+                z, topk_idx = differentiable_topk( scores, k, temperature=0.02 )
                 selected_doc_embeddings = torch.einsum('bkn,bnd->bkd', z.to(retrieved_doc_embeddings.dtype), retrieved_doc_embeddings)
                 selected_doc_embeddings = selected_doc_embeddings.view(
                     selected_doc_embeddings.size(0) * selected_doc_embeddings.size(1), 
@@ -917,10 +923,26 @@ class CLaRa(PreTrainedModel):
         indices = range(0, compressed_embs.size(0) + 1, self.generation_top_k)            
         return self._replace_embeddings(compressed_embs, dec_input_ids, indices)
 
-    def _replace_emb_stage2(self, compressed_embs: torch.Tensor, dec_input_ids: torch.Tensor) -> torch.Tensor:
-        """Replace memory tokens for stage 2."""
-        indices = range(0, compressed_embs.size(0) + 1, self.generation_top_k)            
-        return self._replace_embeddings(compressed_embs, dec_input_ids, indices)
+    def _replace_emb_stage2(self, compressed_embs, dec_input_ids):
+        print("="*60)
+        print("compressed_embs.shape =", compressed_embs.shape)
+        print("generation_top_k =", self.generation_top_k)
+        print("batch_size =", dec_input_ids.shape[0])
+        print("="*60)
+
+        actual_k = compressed_embs.size(0)
+
+        indices = [0, actual_k]
+
+        print("indices =", indices)
+
+
+        return self._replace_embeddings(
+            compressed_embs,
+            dec_input_ids,
+            indices
+        )
+    
 
     def _replace_embeddings(self, compressed_embs: torch.Tensor, dec_input_ids: torch.Tensor, indices: range) -> torch.Tensor:
         """Replace memory tokens with compressed embeddings."""
@@ -933,7 +955,8 @@ class CLaRa(PreTrainedModel):
             (dec_input_ids == self.decoder_tokenizer.mem_token_ids[0]).int(), dim=1
         )
         batch_size = inputs_embeds.size(0)
-        
+        print("indices received =", indices)
+        print("batch_size =", batch_size)
         # Replace with compressed embeddings
         for i in range(batch_size):
             for j in range(indices[i], indices[i + 1]):
@@ -1449,7 +1472,8 @@ class CLaRa(PreTrainedModel):
                 F.normalize(retrieved_doc_embeddings, dim=-1, p=2).float().transpose(1, 2)
             ).squeeze(1)
             
-            z, topk_idx = differentiable_topk(scores, self.generation_top_k, temperature=0.02)
+            k = min(self.generation_top_k, scores.shape[1])
+            z, topk_idx = differentiable_topk( scores, k, temperature=0.02)
             selected = torch.einsum('bkn,bnd->bkd', z.to(retrieved_doc_embeddings.dtype), retrieved_doc_embeddings)
             selected = selected.view(selected.size(0) * selected.size(1), -1, self.hidden_size)
 
