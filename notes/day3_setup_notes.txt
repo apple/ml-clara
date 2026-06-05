@@ -1,0 +1,29 @@
+Day 3 - CLaRa Setup
+
+1. Activated CLaRa virtual environment.
+2. Explored decoder configuration in modeling_clara.py.
+3. Identified Mistral-7B-Instruct-v0.2 as the decoder model.
+4. Downloaded Mistral-7B-Instruct-v0.2 locally.
+5. Investigated HuggingFace shard downloading and cache system.
+6. Debugged incomplete shard download issue.
+7. Verified all safetensor shards were present.
+8. Successfully loaded Mistral using Transformers.
+9. Confirmed decoder is ready for CLaRa benchmarking.
+10. Prepared environment for benchmark execution.Day 3 Progress
+
+1. Successfully downloaded Mistral-7B-Instruct-v0.2 locally.
+2. Verified model loads correctly using AutoModelForCausalLM.
+3. Fixed evaluation dataset path in evaluation/evaluate.py.
+4. Extracted musique dataset from evaluation_data/end_to_end_evaluation/musique.zip.
+5. Fixed checkpoint config paths:
+   - decoder_model_name
+   - compr_base_model_name
+   changed from /mnt/ceph_rbd/... to base_models/Mistral-7B-Instruct-v0.2
+6. Successfully ran CLaRa stage2 benchmark on MuSiQue.
+7. Processed 605/605 samples.
+8. Output saved:
+   checkpoints/compression-16/musique_stage2_True_5.jsonl
+9. Current issue:
+   evaluate.load() fails during metric computation.
+10. Next session:
+   Check evaluate package version and fix metric calculation.
